@@ -4,6 +4,7 @@ username_input = ''
 
 bg = "#8688A1"
 
+
 @ui.page('/')
 def index():
 
