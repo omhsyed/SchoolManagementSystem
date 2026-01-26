@@ -51,6 +51,8 @@ ui.colors(primary = "#FBFFCA", secondary = "#FBFFCA", accent = "#FBFFCA")
 
 def login_page():
 
+     #ui.image('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoqY44qpHka0eUDqpKu-tpY8nJe4B0QIbXFw&s')
+
      ui.html(f"<h6 style = 'color: {clr_text};'> Welcome to Al-Falah Academy's <strong>School System.</strong> </h6>", sanitize = False)
      
      ui.input(label='Username', 
