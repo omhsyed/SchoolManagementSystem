@@ -30,7 +30,9 @@ def index():
 
 
 
-ui.run(title='Test site', 
+ui.run(title='Al-Falah Classroom', 
+       on_air = 'oSvftbTFTzgTVIGa',
+       favicon = '🏫'
        #native = True, 
        #window_size = (800, 600), 
        #fullscreen = False
