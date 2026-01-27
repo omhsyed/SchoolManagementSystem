@@ -1,15 +1,25 @@
 <h1> Hello, {{ name }}! </h1>
 
 <div class = 'container'>
-    <form method = "POST">
+    <form action = "/" method = "POST">
 
-        <label for = "username">
-            Username:
-        </label>
+        <label class = 'smalltext'> Username </label>
 
-        <input type = "text" id = "username" name = "username">
+        <br>
 
-        <input type = "submit" value = "Submit">
+        <input name = "username">
+
+        <br><br>
+
+        <label class = 'smalltext'> Password </label>
+
+        <br>
+
+        <input name = "password">
+
+        <br><br><br>
+
+        <button type = "submit"> Enter </button>
 
     </form>
 </div>
@@ -21,6 +31,8 @@ body {background-color: rgb(15, 44, 26)}
 
 h1 {color: white; text-align: center; font-family: 'Lucida Sans'} 
 
-.container {margin: auto;}
+.container {display: flex; justify-content: center; align-items: center;}
+
+.smalltext {font-size: 15px; color: rgb(255, 253, 218); text-align: center; font-family: 'Lucida Sans'}
 
 </style>

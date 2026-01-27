@@ -7,9 +7,14 @@ x = 'Test User'
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def login_page():
-    return render_template('test_template.html', name = x)
+    if request.method == 'POST':
+        uname = request.form['username']
+        pword = request.form['password']
+        return f'Hello, {uname}! your password is {pword}'
+    else:
+        return render_template('test_template.html', name = x)
 
 
 if __name__ == '__main__':
