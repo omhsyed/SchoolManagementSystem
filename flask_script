@@ -1,5 +1,27 @@
 from flask import Flask, render_template, request
 import mysql.connector
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+try:
+
+    connection = mysql.connector.connect(host = "localhost", user = "root", password = os.getenv("DB_PASSWORD"))
+
+    if connection.is_connected():
+        cursor = connection.cursor()
+        print('success')
+
+except mysql.connector.Error as err:
+        if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR:
+            print("wrong credentials")
+        elif err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
+            print("no database")
+        else:
+            print(err)
+
+
 
 
 x = 'Test User'
