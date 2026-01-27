@@ -5,9 +5,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 try:
 
-    connection = mysql.connector.connect(host = "localhost", user = "root", password = os.getenv("DB_PASSWORD"))
+    connection = mysql.connector.connect(host = os.getenv("MYSQL_HOST"), user = os.getenv("MYSQL_USER"), password = os.getenv("MYSQL_PASSWORD"), database = os.getenv("MYSQL_DB"))
 
     if connection.is_connected():
         cursor = connection.cursor()
@@ -17,7 +18,7 @@ except mysql.connector.Error as err:
         if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR:
             print("wrong credentials")
         elif err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
-            print("no database")
+            print("database doesn't exist")
         else:
             print(err)
 
@@ -31,10 +32,20 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def login_page():
+
     if request.method == 'POST':
+
         uname = request.form['username']
         pword = request.form['password']
-        return f'Hello, {uname}! your password is {pword}'
+
+        cursor.execute("SELECT COUNT(*) FROM staff WHERE user_name = %s AND pass_word = %s;", (uname, pword))
+        results = cursor.fetchall()
+
+        if results[0][0] == 1:
+            return f'Hello, {uname}! Successfully logged in.'
+        elif results[0][0] == 0:
+            return "incorrect username or password"
+
     else:
         return render_template('test_template.html', name = x)
 
