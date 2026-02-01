@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 import os
 from dotenv import load_dotenv
+import bcrypt
 
 load_dotenv()
 
@@ -63,9 +64,18 @@ def login_page():
 @app.route('/main', methods=['GET', 'POST'])
 def main_page():
 
+    if (request.method == 'POST'):
+        render_template('change_password')
+        uname = request.form['username']
+        new_pass = request.form['new_password']
+        cursor.execute('UPDATE staff SET pass_word = %s WHERE user_name = %s', (new_pass, uname))
+        #return render_template('change_password')
+
     return render_template('main_page.html', name = login_name)
 
 
+
+#@app.route('/changepassword')
 
 
 
