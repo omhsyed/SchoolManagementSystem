@@ -27,6 +27,7 @@ except mysql.connector.Error as err:
 
 
 login_name = ''
+user_position = ''
 
 
 app = Flask(__name__)
@@ -40,16 +41,21 @@ def login_page():
         pword = request.form['password']
 
         cursor.execute("SELECT COUNT(*) FROM staff WHERE user_name = %s AND pass_word = %s;", (uname, pword))
-        results = cursor.fetchall()
+        result = (cursor.fetchall())[0][0]
 
-        if results[0][0] == 1:
+        if result == 1:
+
+            cursor.execute("SELECT position FROM staff WHERE user_name = %s AND pass_word = %s;", (uname, pword))
+
+            global user_position
+            user_position = (cursor.fetchall())[0][0]
 
             global login_name
             login_name = uname
 
             return redirect(url_for("main_page"))
         
-        elif results[0][0] == 0:
+        elif result == 0:
 
             return "incorrect username or password"
 
@@ -66,8 +72,8 @@ def main_page():
 
     if (request.method == 'POST'):
         return redirect(url_for("change_password"))
-
-    return render_template('main_page.html', name = login_name)
+    else:
+        return render_template('main_page.html', name = login_name, position = user_position)
 
 
 
@@ -79,10 +85,12 @@ def change_password():
         new_pass = request.form['new_password']
 
         cursor.execute('UPDATE staff SET pass_word = %s WHERE user_name = %s', (new_pass, uname))
+        connection.commit()
 
         return redirect(url_for("main_page"))
     
-    return render_template('change_password.html')
+    else:
+        return render_template('change_password.html')
 
 
 
