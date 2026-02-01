@@ -65,17 +65,24 @@ def login_page():
 def main_page():
 
     if (request.method == 'POST'):
-        render_template('change_password')
-        uname = request.form['username']
-        new_pass = request.form['new_password']
-        cursor.execute('UPDATE staff SET pass_word = %s WHERE user_name = %s', (new_pass, uname))
-        #return render_template('change_password')
+        return redirect(url_for("change_password"))
 
     return render_template('main_page.html', name = login_name)
 
 
 
-#@app.route('/changepassword')
+@app.route('/changepassword', methods=['GET', 'POST'])
+def change_password():
+
+    if (request.method == 'POST'):
+        uname = request.form['username']
+        new_pass = request.form['new_password']
+
+        cursor.execute('UPDATE staff SET pass_word = %s WHERE user_name = %s', (new_pass, uname))
+
+        return redirect(url_for("main_page"))
+    
+    return render_template('change_password.html')
 
 
 
